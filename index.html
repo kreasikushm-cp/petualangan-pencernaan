@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- Supabase JS Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -55,10 +57,10 @@
                             SMPN 1 TANJUNG BINTANG
                         </div>
                         <div class="mt-3">
-                            <!-- Bagian Logo Berdampingan -->
+                            <!-- Bagian Logo Berdampingan (Diperbarui langsung ke file utama) -->
                             <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                                <img src="assets/gambar/logo_smp.png" alt="Logo SMP" class="img-fluid" style="max-height: 70px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/70?text=Logo+SMP'">
-                                <img src="assets/gambar/sahabat_belajar.png" alt="Sahabat Belajar" class="img-fluid" style="max-height: 70px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/70?text=Sahabat+Belajar'">
+                                <img src="logo_smp.png" alt="Logo SMP" class="img-fluid" style="max-height: 70px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/70?text=Logo+SMP'">
+                                <img src="sahabat_belajar.png" alt="Sahabat Belajar" class="img-fluid" style="max-height: 70px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/70?text=Sahabat+Belajar'">
                             </div>
 
                             <h2 class="fw-extrabold text-dark display-6 mb-2">PETUALANGAN DALAM TUBUH MANUSIA</h2>
@@ -99,7 +101,7 @@
                             </div>
                             <div class="mt-3">
                                 <button class="btn btn-link text-muted small text-decoration-none" onclick="bukaDashboardGuru()">
-                                    <i class="fas fa-chalkboard-teacher me-1"></i> Masuk Dashboard Guru (Penyimpanan MySQL)
+                                    <i class="fas fa-chalkboard-teacher me-1"></i> Masuk Dashboard Guru (Supabase Cloud)
                                 </button>
                                 <div class="mt-2">
                                     <a href="https://kreasikushm-cp.github.io/situs-aplikasi-edukasi/" target="_blank" class="text-decoration-none text-muted small">
@@ -495,14 +497,11 @@
                     <button class="btn btn-outline-dark rounded-pill px-3" onclick="kembaliKeHome()">
                         <i class="fas fa-arrow-left me-1"></i> Keluar Dashboard
                     </button>
-                    <h3 class="fw-bold text-primary mb-0"><i class="fas fa-chalkboard-teacher me-2"></i> Dashboard Guru (MySQL Database)</h3>
+                    <h3 class="fw-bold text-primary mb-0"><i class="fas fa-chalkboard-teacher me-2"></i> Dashboard Guru (Supabase Cloud)</h3>
                     <div>
                         <button class="btn btn-success rounded-pill px-3 fw-bold shadow-sm" onclick="muatDataGuru()">
                             <i class="fas fa-sync-alt me-1"></i> Refresh Data
                         </button>
-                        <a href="get_scores.php?export=true" class="btn btn-danger rounded-pill px-3 fw-bold shadow-sm ms-2">
-                            <i class="fas fa-file-csv me-1"></i> Ekspor CSV
-                        </a>
                     </div>
                 </div>
             </div>
@@ -511,7 +510,7 @@
                 <div class="col-lg-12">
                     <div class="card border-0 shadow-lg rounded-4 p-4 bg-white">
                         <h5 class="fw-bold text-dark mb-3"><i class="fas fa-list-alt text-primary me-2"></i> Rekapitulasi Nilai & Hasil Belajar Siswa</h5>
-                        <p class="text-muted small">Data di bawah ini diambil secara langsung dari database MySQL melalui server lokal XAMPP.</p>
+                        <p class="text-muted small">Data di bawah ini diambil secara langsung dari database Supabase Cloud secara real-time.</p>
                         
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered align-middle">
@@ -531,7 +530,7 @@
                                 </thead>
                                 <tbody id="tabel-nilai-body">
                                     <tr>
-                                        <td colspan="10" class="text-center text-muted py-4">Memuat data dari server MySQL...</td>
+                                        <td colspan="10" class="text-center text-muted py-4">Memuat data dari Supabase Cloud...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -605,7 +604,7 @@
 
                     <div class="text-center mt-4">
                         <button class="btn btn-primary rounded-pill px-4 fw-bold me-2" onclick="kirimDataKeDatabase()">
-                            <i class="fas fa-cloud-upload-alt me-1"></i> Simpan Skor ke Database MySQL
+                            <i class="fas fa-cloud-upload-alt me-1"></i> Simpan Skor ke Supabase Cloud
                         </button>
                         <button class="btn btn-outline-dark rounded-pill px-4 fw-bold" onclick="kembaliKeMenu()">
                             Kembali ke Peta Misi
@@ -629,7 +628,7 @@
                             <li class="mb-2">Pilih menu <strong>Pelajari Materi</strong> untuk memahami konsep sistem pencernaan sebelum menjelajah.</li>
                             <li class="mb-2">Pilih berbagai misi minigame (Game 1 sampai 7) untuk mengumpulkan poin dan lencana.</li>
                             <li class="mb-2">Robot DIGO akan memberikan petunjuk dan bimbingan di setiap permainan.</li>
-                            <li>Setelah selesai, lihat hasil akhir, cetak sertifikat, dan skor Anda akan tersimpan otomatis ke database MySQL!</li>
+                            <li>Setelah selesai, lihat hasil akhir, cetak sertifikat, dan skor Anda akan tersimpan otomatis ke database Cloud!</li>
                         </ol>
                     </div>
                     <div class="modal-footer border-0">
