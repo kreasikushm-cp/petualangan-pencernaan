@@ -1,6 +1,10 @@
 // Konfigurasi Klien Supabase
 const SUPABASE_URL = 'https://kuampqsjfbnlhxqjafpu.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1YW1wcXNqZmJubGh4cWphZnB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2NTY3NjIsImV4cCI6MjEwNzIzMjc2Mn0.iIE82fRLSy8vmRF0kCEGoNlXhyYemO3_zcOR1hzR69U';
+
+// Inisialisasi Klien Supabase
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 // VARIABEL GLOBAL GAME
 let gameState = {
     namaSiswa: "",
@@ -182,11 +186,9 @@ function muatGameRangkaiOrgan(container) {
         <div id="hasil-game1" class="mt-3"></div>
     `;
 
-    // Implementasi drag/click sederhana untuk menyusun
     let cards = container.querySelectorAll('.draggable-card');
     cards.forEach(card => {
         card.addEventListener('click', () => {
-            // Putar posisi dengan kartu berikutnya saat diklik untuk kemudahan HP Android
             container.querySelector('#sortable-list').appendChild(card);
             playSound('click');
         });
@@ -218,7 +220,7 @@ function periksaUrutanOrgan() {
     } else {
         gameState.jawabanSalah++;
         playSound('error');
-        divHasil.innerHTML = `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i><strong>Belum tepat!</strong> DIGO memberi petunjuk: Mulai dari Mulut -> Faring -> Kerongkongan -> Lambung -> Usus Halus -> Usus Besar -> Rektum -> Anus. Coba susun kembali!</div>`;
+        divHasil.innerHTML = `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i><strong>Belum tepat!</strong> DIGO memberi petunjuk: Mulut -> Faring -> Kerongkongan -> Lambung -> Usus Halus -> Usus Besar -> Rektum -> Anus. Coba susun kembali!</div>`;
     }
     document.getElementById("current-game-score").innerText = gameState.totalPoin;
 }
@@ -341,7 +343,6 @@ function muatGameEnzim(container) {
 
 function periksaGameEnzim() {
     const selects = document.querySelectorAll('.select-enzim');
-    let semuaBenar = true;
     let totalDikerjakan = selects.length;
     let benarCount = 0;
 
@@ -351,7 +352,6 @@ function periksaGameEnzim() {
             benarCount++;
             gameState.jawabanBenar++;
         } else {
-            semuaBenar = false;
             gameState.jawabanSalah++;
         }
     });
@@ -632,7 +632,7 @@ function jawabPahlawan(isBenar) {
 }
 
 // ==========================================
-// HASIL AKHIR & KONEKSI DATABASE MYSQL
+// HASIL AKHIR & KONEKSI SUPABASE CLOUD
 // ==========================================
 function tampilkanHasilAkhir() {
     playSound('click');
@@ -660,17 +660,19 @@ function tampilkanHasilAkhir() {
     document.getElementById("res-level").innerText = gameState.levelTertinggi;
     document.getElementById("res-lencana").innerText = gameState.lencanaDiperoleh.length > 0 ? gameState.lencanaDiperoleh.join(", ") : "Belum ada lencana";
 
-    // Kirim data otomatis ke backend PHP & MySQL
+    // Kirim data otomatis ke Supabase Cloud
     kirimDataKeDatabase();
 }
 
-function kirimDataKeDatabase() {
+async function kirimDataKeDatabase() {
+    if (!gameState.namaSiswa || !gameState.kelasSiswa) return;
+
     let persen = gameState.jumlahSoalDijawab > 0 ? (gameState.jawabanBenar / gameState.jumlahSoalDijawab) * 100 : 0;
     let kategori = persen >= 90 ? "Sangat Baik" : (persen >= 80 ? "Baik" : (persen >= 70 ? "Cukup" : "Perlu Belajar Lagi"));
 
     let dataPayload = {
-        nama_siswa: gameState.namaSiswa || "Siswa Tanpa Nama",
-        kelas: gameState.kelasSiswa || "Kelas VIII",
+        nama_siswa: gameState.namaSiswa,
+        kelas: gameState.kelasSiswa,
         total_permainan: gameState.totalPermainanSelesai,
         jumlah_soal: gameState.jumlahSoalDijawab,
         jawaban_benar: gameState.jawabanBenar,
@@ -678,24 +680,20 @@ function kirimDataKeDatabase() {
         persentase: persen.toFixed(2),
         total_poin: gameState.totalPoin,
         level_tertinggi: gameState.levelTertinggi,
-        lencana: gameState.lencanaDiperoleh,
+        lencana: gameState.lencanaDiperoleh.join(", "),
         kategori: kategori
     };
 
-    fetch('save_score.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataPayload)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Respon Database MySQL:", data.message);
-    })
-    .catch(err => {
-        console.log("Catatan: Menyimpan secara lokal / server offline.", err);
-    });
+    try {
+        const { error } = await supabaseClient
+            .from('hasil_siswa')
+            .insert([dataPayload]);
+
+        if (error) throw error;
+        console.log("Berhasil menyimpan data ke Supabase Cloud.");
+    } catch (err) {
+        console.error("Gagal menyimpan ke Supabase:", err.message);
+    }
 }
 
 // ==========================================
@@ -707,33 +705,40 @@ function bukaDashboardGuru() {
     muatDataGuru();
 }
 
-function muatDataGuru() {
+async function muatDataGuru() {
     const tbody = document.getElementById("tabel-nilai-body");
-    tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4"><i class="fas fa-spinner fa-spin me-2"></i> Mengambil data dari server MySQL...</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4"><i class="fas fa-spinner fa-spin me-2"></i> Mengambil data dari Supabase Cloud...</td></tr>`;
 
-    fetch('get_scores.php')
-    .then(response => response.json())
-    .then(result => {
-        if (result.status === "success" && result.data.length > 0) {
-            tbody.innerHTML = result.data.map((row, idx) => `
-                <tr>
-                    <td class="text-center">${idx + 1}</td>
-                    <td class="fw-bold">${row.nama_siswa}</td>
-                    <td class="text-center">${row.kelas}</td>
-                    <td class="text-center text-danger fw-bold">${row.total_poin}</td>
-                    <td class="text-center">${row.jawaban_benar} / ${row.jumlah_soal}</td>
-                    <td class="text-center fw-bold text-primary">${row.persentase}%</td>
-                    <td class="text-center"><span class="badge bg-success">${row.kategori}</span></td>
-                    <td class="text-center small">${row.level_tertinggi}</td>
-                    <td class="small">${row.lencana}</td>
-                    <td class="text-center small text-muted">${row.tanggal}</td>
-                </tr>
-            `).join('');
-        } else {
-            tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">Belum ada data nilai siswa yang tersimpan di database MySQL.</td></tr>`;
+    try {
+        const { data, error } = await supabaseClient
+            .from('hasil_siswa')
+            .select('*')
+            .order('tanggal', { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">Belum ada data nilai siswa yang tersimpan di Supabase Cloud.</td></tr>`;
+            return;
         }
-    })
-    .catch(err => {
-        tbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger py-4">Gagal terhubung ke server PHP/MySQL. Pastikan XAMPP Apache & MySQL aktif!</td></tr>`;
-    });
+
+        tbody.innerHTML = data.map((row, idx) => `
+            <tr>
+                <td class="text-center">${idx + 1}</td>
+                <td class="fw-bold">${row.nama_siswa}</td>
+                <td class="text-center">${row.kelas}</td>
+                <td class="text-center text-danger fw-bold">${row.total_poin}</td>
+                <td class="text-center">${row.jawaban_benar} / ${row.jumlah_soal}</td>
+                <td class="text-center fw-bold text-primary">${row.persentase}%</td>
+                <td class="text-center"><span class="badge bg-success">${row.kategori}</span></td>
+                <td class="text-center small">${row.level_tertinggi}</td>
+                <td class="small">${row.lencana || '-'}</td>
+                <td class="text-center small text-muted">${new Date(row.tanggal).toLocaleString('id-ID')}</td>
+            </tr>
+        `).join('');
+
+    } catch (err) {
+        console.error("Error mengambil data:", err.message);
+        tbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger py-4"><i class="fas fa-exclamation-triangle me-2"></i> Gagal terhubung ke Supabase Cloud: ${err.message}</td></tr>`;
+    }
 }
