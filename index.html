@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Dalam Tubuh Manusia - Misi Menyelamatkan Sistem Pencernaan</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Container Utama Aplikasi -->
+    <div id="app" class="container-fluid py-3 px-2 px-md-4">
+        
+        <!-- HEADER UTAMA -->
+        <header class="text-center mb-4 app-header p-3 rounded-4 shadow-sm">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-start mb-2 mb-md-0">
+                    <span class="badge bg-light text-dark fs-6 px-3 py-2 rounded-pill shadow-sm">
+                        <i class="fas fa-user-graduate text-primary me-1"></i> <span id="display-nama">-</span> (<span id="display-kelas">-</span>)
+                    </span>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="h3 fw-bold text-white mb-0 text-uppercase tracking-wide">
+                        <i class="fas fa-rocket text-warning me-2"></i> Petualangan Dalam Tubuh Manusia
+                    </h1>
+                    <p class="text-white-50 small mb-0">Misi Menyelamatkan Sistem Pencernaan • IPA SMP Kelas VIII</p>
+                </div>
+                <div class="col-md-3 text-end mt-2 mt-md-0">
+                    <div class="d-inline-flex gap-2">
+                        <span class="badge bg-warning text-dark fs-6 px-3 py-2 rounded-pill shadow-sm">
+                            <i class="fas fa-star text-danger me-1"></i> Poin: <span id="display-poin">0</span>
+                        </span>
+                        <button class="btn btn-sm btn-light rounded-circle shadow-sm" onclick="toggleAudio()" title="Suara Efek">
+                            <i id="audio-icon" class="fas fa-volume-up text-primary"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- HALAMAN 1: PEMBUKA / LOGIN -->
+        <section id="page-home" class="game-page active">
+            <div class="row justify-content-center align-items-center min-vh-75">
+                <div class="col-lg-7 text-center">
+                    <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white position-relative overflow-hidden">
+                        <div class="position-absolute top-0 start-0 w-100 bg-primary py-2 text-white fw-bold small">
+                            MEDIA PEMBELAJARAN INTERAKTIF BERBASIS WEB
+                            SMPN 1 TANJUNG BINTANG
+                        </div>
+                        <div class="mt-3">
+                            <!-- Bagian Logo Berdampingan -->
+                            <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                <img src="assets/gambar/logo_smp.png" alt="Logo SMP" class="img-fluid" style="max-height: 70px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/70?text=Logo+SMP'">
+                                <img src="assets/gambar/sahabat_belajar.png" alt="Sahabat Belajar" class="img-fluid" style="max-height: 70px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/70?text=Sahabat+Belajar'">
+                            </div>
+
+                            <h2 class="fw-extrabold text-dark display-6 mb-2">PETUALANGAN DALAM TUBUH MANUSIA</h2>
+                            <h4 class="text-danger fw-bold mb-4">Misi Menyelamatkan Sistem Pencernaan</h4>
+                            <p class="text-muted mb-4">
+                                Jadilah penjelajah mikroskopis! Masuki tubuh manusia dengan kendaraan futuristik bersama robot cerdas <strong>DIGO</strong> untuk menyelamatkan sistem pencernaan!
+                            </p>
+
+                            <!-- Form Identitas -->
+                            <div class="row g-3 justify-content-center mb-4">
+                                <div class="col-md-6 text-start">
+                                    <label for="input-nama" class="form-label fw-bold text-secondary small">Nama Lengkap Siswa</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
+                                        <input type="text" id="input-nama" class="form-control" placeholder="Contoh: Budi Santoso">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-start">
+                                    <label for="input-kelas" class="form-label fw-bold text-secondary small">Kelas</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-school text-primary"></i></span>
+                                        <input type="text" id="input-kelas" class="form-control" placeholder="Contoh: Kelas 8A">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tombol Aksi Utama -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-center">
+                                <button class="btn btn-success btn-lg px-4 py-3 fw-bold rounded-pill shadow" onclick="mulaiPetualangan()">
+                                    <i class="fas fa-play-circle me-2"></i> MULAI PETUALANGAN
+                                </button>
+                                <button class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold rounded-pill" onclick="bukaMenuMateri()">
+                                    <i class="fas fa-book-open me-2"></i> PELAJARI MATERI
+                                </button>
+                                <button class="btn btn-outline-secondary btn-lg px-4 py-3 fw-bold rounded-pill" onclick="bukaPetunjuk()">
+                                    <i class="fas fa-info-circle me-2"></i> PETUNJUK
+                                </button>
+                            </div>
+                            <div class="mt-3">
+                                <button class="btn btn-link text-muted small text-decoration-none" onclick="bukaDashboardGuru()">
+                                    <i class="fas fa-chalkboard-teacher me-1"></i> Masuk Dashboard Guru (Penyimpanan MySQL)
+                                </button>
+                                <div class="mt-2">
+                                    <a href="https://kreasikushm-cp.github.io/situs-aplikasi-edukasi/" target="_blank" class="text-decoration-none text-muted small">
+                                        <i class="fas fa-code text-primary me-1"></i> Creative By Tim Sahabat_Belajar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN 2: MENU UTAMA / PETA MISI -->
+        <section id="page-map" class="game-page">
+            <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <button class="btn btn-outline-dark rounded-pill px-3" onclick="kembaliKeHome()">
+                        <i class="fas fa-arrow-left me-1"></i> Keluar
+                    </button>
+                    <h3 class="fw-bold text-primary mb-0"><i class="fas fa-map-marked-alt me-2"></i> Peta Misi Penjelajahan</h3>
+                    <button class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" onclick="bukaMenuMateri()">
+                        <i class="fas fa-book me-1"></i> Baca Materi
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Sapaan DIGO -->
+                <div class="col-12">
+                    <div class="alert alert-info border-0 shadow-sm rounded-4 d-flex align-items-center p-3">
+                        <div class="display-4 text-info me-3 animate-pulse">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark">Halo, <span class="nama-siswa-teks">Siswa</span>! Aku DIGO (Detektif Ilmu & Gerak Organ).</h5>
+                            <p class="mb-0 text-muted">Pilih misi penjelajahan atau minigame di bawah ini untuk menguji pemahamanmu tentang sistem pencernaan manusia!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kartu Pilihan Game / Misi -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-scale card-misi bg-gradient-1">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-white text-primary rounded-circle mx-auto mb-3 shadow-sm">
+                                <i class="fas fa-stream fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Game 1: Rangkai Jalur Makanan</h5>
+                            <p class="text-muted small">Susun kartu organ pencernaan secara berurutan dari mulut hingga anus.</p>
+                            <button class="btn btn-primary rounded-pill w-100 fw-bold mt-2" onclick="mulaiGame(1)">MAIN MISI 1</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-scale card-misi bg-gradient-2">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-white text-success rounded-circle mx-auto mb-3 shadow-sm">
+                                <i class="fas fa-search-location fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Game 2: Body Explorer</h5>
+                            <p class="text-muted small">Temukan lokasi organ tubuh yang tepat berdasarkan petunjuk DIGO.</p>
+                            <button class="btn btn-success rounded-pill w-100 fw-bold mt-2" onclick="mulaiGame(2)">MAIN MISI 2</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-scale card-misi bg-gradient-3">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-white text-warning rounded-circle mx-auto mb-3 shadow-sm">
+                                <i class="fas fa-flask fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Game 3: Pasukan Enzim</h5>
+                            <p class="text-muted small">Cocokkan enzim pencernaan dengan zat makanan yang dicernanya.</p>
+                            <button class="btn btn-warning text-dark rounded-pill w-100 fw-bold mt-2" onclick="mulaiGame(3)">MAIN MISI 3</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-scale card-misi bg-gradient-4">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-white text-danger rounded-circle mx-auto mb-3 shadow-sm">
+                                <i class="fas fa-utensils fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Game 4: Sebutir Nasi Menjelajah</h5>
+                            <p class="text-muted small">Simulasi interaktif perjalanan sebutir nasi dari mulut sampai dikeluarkan.</p>
+                            <button class="btn btn-danger rounded-pill w-100 fw-bold mt-2" onclick="mulaiGame(4)">MAIN MISI 4</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-scale card-misi bg-gradient-5">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-white text-info rounded-circle mx-auto mb-3 shadow-sm">
+                                <i class="fas fa-atom fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Game 5: Ilmuwan Cilik</h5>
+                            <p class="text-muted small">Simulasi percobaan sederhana luas permukaan kunyahan dan air liur.</p>
+                            <button class="btn btn-info text-white rounded-pill w-100 fw-bold mt-2" onclick="mulaiGame(5)">MAIN MISI 5</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-scale card-misi bg-gradient-6">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-white text-primary rounded-circle mx-auto mb-3 shadow-sm">
+                                <i class="fas fa-brain fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Game 6: Tantangan Pintar IPA</h5>
+                            <p class="text-muted small">Kuis pilihan ganda cepat tepat sistem pencernaan manusia.</p>
+                            <button class="btn btn-primary rounded-pill w-100 fw-bold mt-2" onclick="mulaiGame(6)">MAIN MISI 6</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-scale card-misi bg-gradient-7">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-white text-success rounded-circle mx-auto mb-3 shadow-sm">
+                                <i class="fas fa-heartbeat fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Game 7: Pahlawan Pencernaan</h5>
+                            <p class="text-muted small">Analisis kasus kebiasaan sehari-hari dan cara pencegahan gangguannya.</p>
+                            <button class="btn btn-success rounded-pill w-100 fw-bold mt-2" onclick="mulaiGame(7)">MAIN MISI 7</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-scale bg-white border border-primary">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-box bg-primary text-white rounded-circle mx-auto mb-3 shadow-sm">
+                                <i class="fas fa-award fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Selesaikan Penjelajahan</h5>
+                            <p class="text-muted small">Lihat rekapitulasi nilai, lencana, dan cetak sertifikat kelulusan misi!</p>
+                            <button class="btn btn-dark rounded-pill w-100 fw-bold mt-2" onclick="tampilkanHasilAkhir()">LIHAT HASIL & SERTIFIKAT</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- HALAMAN 3: MATERI PEMBELAJARAN INTERAKTIF -->
+        <section id="page-materi" class="game-page">
+            <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <button class="btn btn-outline-dark rounded-pill px-3" onclick="kembaliKeMenu()">
+                        <i class="fas fa-arrow-left me-1"></i> Kembali ke Peta Misi
+                    </button>
+                    <h3 class="fw-bold text-primary mb-0"><i class="fas fa-book-reader me-2"></i> Materi Sistem Pencernaan Manusia</h3>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card border-0 shadow-lg rounded-4 p-4 bg-white">
+                        
+                        <!-- Navigasi Tab Materi -->
+                        <ul class="nav nav-pills mb-4 justify-content-center gap-2" id="materiTab" role="tablist">
+                            <li class="nav-item"><button class="nav-link active rounded-pill fw-bold px-3" data-bs-toggle="pill" data-bs-target="#m1">1. Pengertian</button></li>
+                            <li class="nav-item"><button class="nav-link rounded-pill fw-bold px-3" data-bs-toggle="pill" data-bs-target="#m2">2. Organ Saluran</button></li>
+                            <li class="nav-item"><button class="nav-link rounded-pill fw-bold px-3" data-bs-toggle="pill" data-bs-target="#m3">3. Organ Pendukung</button></li>
+                            <li class="nav-item"><button class="nav-link rounded-pill fw-bold px-3" data-bs-toggle="pill" data-bs-target="#m4">4. Enzim</button></li>
+                            <li class="nav-item"><button class="nav-link rounded-pill fw-bold px-3" data-bs-toggle="pill" data-bs-target="#m5">5. Perjalanan</button></li>
+                            <li class="nav-item"><button class="nav-link rounded-pill fw-bold px-3" data-bs-toggle="pill" data-bs-target="#m6">6. Kesehatan</button></li>
+                        </ul>
+
+                        <div class="tab-content" id="materiTabContent">
+                            <!-- MATERI 1 -->
+                            <div class="tab-pane fade show active" id="m1">
+                                <h4 class="text-primary fw-bold mb-3"><i class="fas fa-info-circle me-2"></i> Pengertian Sistem Pencernaan</h4>
+                                <p class="lead text-secondary">Sistem pencernaan adalah sistem organ dalam tubuh manusia yang bertugas menerima makanan, memprosesnya menjadi zat-zat gizi yang dapat diserap, serta mengeluarkan sisa-sisa makanan yang tidak diperlukan oleh tubuh.</p>
+                                <div class="row g-3 mt-3">
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-light rounded-3 border-start border-4 border-primary">
+                                            <h5 class="fw-bold text-dark">Pencernaan Mekanis</h5>
+                                            <p class="small text-muted mb-0">Proses mengubah ukuran makanan dari besar menjadi lebih kecil atau halus secara fisik (misalnya dikunyah oleh gigi dan diaduk oleh lambung).</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-light rounded-3 border-start border-4 border-success">
+                                            <h5 class="fw-bold text-dark">Pencernaan Kimiawi</h5>
+                                            <p class="small text-muted mb-0">Proses penguraian molekul makanan kompleks menjadi zat-zat yang lebih sederhana dengan bantuan enzim pencernaan.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MATERI 2 -->
+                            <div class="tab-pane fade" id="m2">
+                                <h4 class="text-primary fw-bold mb-3"><i class="fas fa-bars me-2"></i> Organ-Organ Saluran Pencernaan</h4>
+                                <div class="accordion" id="accordionOrgan">
+                                    <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#org1">
+                                                1. Mulut (Cavitas Oris)
+                                            </button>
+                                        </h2>
+                                        <div id="org1" class="accordion-collapse collapse show" data-bs-parent="#accordionOrgan">
+                                            <div class="accordion-body text-secondary">
+                                                Tempat masuknya makanan. Gigi memotong/menghaluskan, lidah mengaduk & menelan, serta air liur mengandung enzim amilase saliva yang memecah pati menjadi zat sederhana.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#org2">
+                                                2. Faring & Kerongkongan (Esofagus)
+                                            </button>
+                                        </h2>
+                                        <div id="org2" class="accordion-collapse collapse" data-bs-parent="#accordionOrgan">
+                                            <div class="accordion-body text-secondary">
+                                                Faring adalah persimpangan saluran. Kerongkongan menyalurkan makanan ke lambung dengan gerakan meremas-remas dinding otot yang disebut <strong>gerak peristaltik</strong>.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#org3">
+                                                3. Lambung (Ventriculus)
+                                            </button>
+                                        </h2>
+                                        <div id="org3" class="accordion-collapse collapse" data-bs-parent="#accordionOrgan">
+                                            <div class="accordion-body text-secondary">
+                                                Menampung makanan sementara, mengaduknya dengan cairan asam lambung (HCl) yang membunuh kuman, serta enzim pepsin untuk mencerna protein.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#org4">
+                                                4. Usus Halus (Intestinum Tenue)
+                                            </button>
+                                        </h2>
+                                        <div id="org4" class="accordion-collapse collapse" data-bs-parent="#accordionOrgan">
+                                            <div class="accordion-body text-secondary">
+                                                Terdiri atas Usus Dua Belas Jari (Duodenum), Usus Kosong (Jejunum), dan Usus Penyerapan (Ileum). Tempat utama pencernaan kimiawi lanjutan & penyerapan sari makanan melalui jonjot usus (vili).
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#org5">
+                                                5. Usus Besar, Rektum & Anus
+                                            </button>
+                                        </h2>
+                                        <div id="org5" class="accordion-collapse collapse" data-bs-parent="#accordionOrgan">
+                                            <div class="accordion-body text-secondary">
+                                                Usus besar menyerap sisa air dan elektrolit serta pembentukan feses oleh bakteri baik. Rektum menampung feses sementara sebelum dikeluarkan melalui anus.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MATERI 3 -->
+                            <div class="tab-pane fade" id="m3">
+                                <h4 class="text-primary fw-bold mb-3"><i class="fas fa-puzzle-piece me-2"></i> Organ Pendukung Pencernaan</h4>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="card border-0 bg-light p-3 h-100 shadow-sm">
+                                            <h5 class="fw-bold text-dark"><i class="fas fa-circle text-danger me-1"></i> Hati (Liver)</h5>
+                                            <p class="small text-muted mb-0">Menghasilkan cairan empedu yang berfungsi untuk mengemulsikan lemak (memecah lemak menjadi butiran kecil).</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card border-0 bg-light p-3 h-100 shadow-sm">
+                                            <h5 class="fw-bold text-dark"><i class="fas fa-circle text-warning me-1"></i> Kantong Empedu</h5>
+                                            <p class="small text-muted mb-0">Menyimpan dan memekatkan cairan empedu sebelum disalurkan ke usus dua belas jari.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card border-0 bg-light p-3 h-100 shadow-sm">
+                                            <h5 class="fw-bold text-dark"><i class="fas fa-circle text-success me-1"></i> Pankreas</h5>
+                                            <p class="small text-muted mb-0">Menghasilkan enzim pencernaan (lipase, tripsin, amilase) serta cairan bikarbonat untuk menetralkan keasaman lambung.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MATERI 4 -->
+                            <div class="tab-pane fade" id="m4">
+                                <h4 class="text-primary fw-bold mb-3"><i class="fas fa-flask me-2"></i> Enzim Pencernaan Utama</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead class="table-primary">
+                                            <tr>
+                                                <th>Nama Enzim</th>
+                                                <th>Organ Penghasil / Tempat Kerja</th>
+                                                <th>Fungsi Utama</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-bold">Amilase (Ptyalin)</td>
+                                                <td>Mulut (Kelenjar Ludah)</td>
+                                                <td>Memecah amilum (pati) menjadi maltosa/glukosa sederhana.</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Pepsin</td>
+                                                <td>Lambung</td>
+                                                <td>Memecah protein menjadi pepton/polipeptida kecil.</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Lipase</td>
+                                                <td>Pankreas & Usus Halus</td>
+                                                <td>Memecah lemak menjadi asam lemak dan gliserol.</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Tripsin</td>
+                                                <td>Pankreas (bekerja di usus halus)</td>
+                                                <td>Mengubah pepton/protein menjadi asam amino.</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Maltase</td>
+                                                <td>Usus Halus</td>
+                                                <td>Mengubah maltosa menjadi glukosa.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- MATERI 5 -->
+                            <div class="tab-pane fade" id="m5">
+                                <h4 class="text-primary fw-bold mb-3"><i class="fas fa-route me-2"></i> Diagram Alur Perjalanan Makanan</h4>
+                                <div class="p-4 bg-light rounded-3 text-center">
+                                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
+                                        <span class="badge bg-primary fs-6 p-2">1. MULUT</span> <i class="fas fa-arrow-right text-muted"></i>
+                                        <span class="badge bg-primary fs-6 p-2">2. FARING</span> <i class="fas fa-arrow-right text-muted"></i>
+                                        <span class="badge bg-primary fs-6 p-2">3. KERONGKONGAN</span> <i class="fas fa-arrow-right text-muted"></i>
+                                        <span class="badge bg-primary fs-6 p-2">4. LAMBUNG</span> <i class="fas fa-arrow-right text-muted"></i>
+                                        <span class="badge bg-primary fs-6 p-2">5. USUS HALUS</span> <i class="fas fa-arrow-right text-muted"></i>
+                                        <span class="badge bg-primary fs-6 p-2">6. USUS BESAR</span> <i class="fas fa-arrow-right text-muted"></i>
+                                        <span class="badge bg-primary fs-6 p-2">7. REKTUM</span> <i class="fas fa-arrow-right text-muted"></i>
+                                        <span class="badge bg-danger fs-6 p-2">8. ANUS</span>
+                                    </div>
+                                    <p class="text-muted small mt-3 mb-0">Makanan mengalami pencernaan mekanis & kimiawi di sepanjang saluran ini hingga sari-sarinya diserap di usus halus.</p>
+                                </div>
+                            </div>
+
+                            <!-- MATERI 6 -->
+                            <div class="tab-pane fade" id="m6">
+                                <h4 class="text-primary fw-bold mb-3"><i class="fas fa-heartbeat me-2"></i> Menjaga Kesehatan Sistem Pencernaan</h4>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i> Mengonsumsi makanan bergizi seimbang dan kaya serat (buah & sayur).</li>
+                                    <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i> Minum air putih yang cukup (minimal 8 gelas sehari) untuk melancarkan metabolisme.</li>
+                                    <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i> Mengunyah makanan dengan perlahan dan baik agar kerja lambung lebih ringan.</li>
+                                    <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i> Menjaga kebersihan tangan dan makanan sebelum dikonsumsi guna mencegah infeksi bakteri/kuman.</li>
+                                    <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i> Rutin berolahraga dan membiasakan buang air besar secara teratur.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AREA WADAH MINIGAME (GAME 1 s.d 7) -->
+        <section id="page-game" class="game-page">
+            <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <button class="btn btn-outline-dark rounded-pill px-3" onclick="kembaliKeMenu()">
+                        <i class="fas fa-arrow-left me-1"></i> Kembali ke Peta Misi
+                    </button>
+                    <h4 id="game-title" class="fw-bold text-primary mb-0">Judul Misi Minigame</h4>
+                    <span class="badge bg-danger fs-6 px-3 py-2 rounded-pill">Skor Misi: <span id="current-game-score">0</span></span>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div id="game-container-body" class="card border-0 shadow-lg rounded-4 p-4 bg-white">
+                        <!-- Konten dinamis minigame akan dimuat oleh JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN: DASHBOARD GURU -->
+        <section id="page-dashboard" class="game-page">
+            <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <button class="btn btn-outline-dark rounded-pill px-3" onclick="kembaliKeHome()">
+                        <i class="fas fa-arrow-left me-1"></i> Keluar Dashboard
+                    </button>
+                    <h3 class="fw-bold text-primary mb-0"><i class="fas fa-chalkboard-teacher me-2"></i> Dashboard Guru (MySQL Database)</h3>
+                    <div>
+                        <button class="btn btn-success rounded-pill px-3 fw-bold shadow-sm" onclick="muatDataGuru()">
+                            <i class="fas fa-sync-alt me-1"></i> Refresh Data
+                        </button>
+                        <a href="get_scores.php?export=true" class="btn btn-danger rounded-pill px-3 fw-bold shadow-sm ms-2">
+                            <i class="fas fa-file-csv me-1"></i> Ekspor CSV
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="card border-0 shadow-lg rounded-4 p-4 bg-white">
+                        <h5 class="fw-bold text-dark mb-3"><i class="fas fa-list-alt text-primary me-2"></i> Rekapitulasi Nilai & Hasil Belajar Siswa</h5>
+                        <p class="text-muted small">Data di bawah ini diambil secara langsung dari database MySQL melalui server lokal XAMPP.</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered align-middle">
+                                <thead class="table-primary text-center">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Siswa</th>
+                                        <th>Kelas</th>
+                                        <th>Total Poin</th>
+                                        <th>Benar / Total</th>
+                                        <th>Persentase</th>
+                                        <th>Kategori</th>
+                                        <th>Level Tertinggi</th>
+                                        <th>Lencana</th>
+                                        <th>Waktu Selesai</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel-nilai-body">
+                                    <tr>
+                                        <td colspan="10" class="text-center text-muted py-4">Memuat data dari server MySQL...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN: HASIL AKHIR & SERTIFIKAT -->
+        <section id="page-hasil" class="game-page">
+            <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <button class="btn btn-outline-dark rounded-pill px-3" onclick="kembaliKeMenu()">
+                        <i class="fas fa-arrow-left me-1"></i> Kembali ke Peta Misi
+                    </button>
+                    <h3 class="fw-bold text-primary mb-0"><i class="fas fa-award me-2"></i> Hasil Akhir Penjelajahan</h3>
+                    <button class="btn btn-success rounded-pill px-4 fw-bold" onclick="window.print()">
+                        <i class="fas fa-print me-1"></i> Cetak Sertifikat
+                    </button>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <!-- Sertifikat Digital / Kartu Hasil -->
+                    <div id="print-area" class="card border-4 border-warning shadow-lg rounded-4 p-5 bg-white text-center position-relative overflow-hidden">
+                        <div class="position-absolute top-0 start-0 w-100 bg-warning py-1 text-dark fw-bold small">
+                            SERTIFIKAT RESMI PENYELESAIAN MISI IPA SMP
+                        </div>
+                        <div class="mt-3">
+                            <div class="display-4 text-warning mb-2">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <h3 class="fw-extrabold text-primary mb-1">SERTIFIKAT PENYELESAIAN</h3>
+                            <h5 class="text-secondary mb-4">PETUALANGAN DALAM TUBUH MANUSIA</h5>
+                            
+                            <p class="text-muted mb-1">Diberikan dengan bangga kepada:</p>
+                            <h2 class="fw-bold text-dark border-bottom pb-2 d-inline-block px-4 mb-3" id="sertifikat-nama">Nama Siswa</h2>
+                            <p class="text-muted mb-4">Kelas: <strong id="sertifikat-kelas">-</strong></p>
+
+                            <p class="small text-secondary px-md-5 mb-4">
+                                Telah sukses menyelesaikan seluruh misi penjelajahan mikroskopis sistem pencernaan manusia, menjawab soal evaluasi, dan menunjukkan pemahaman konsep biologi dengan sangat baik!
+                            </p>
+
+                            <div class="row g-3 justify-content-center text-start mb-4 bg-light p-3 rounded-4">
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Total Poin:</strong> <span id="res-poin" class="text-danger fw-bold">0</span></p>
+                                    <p class="mb-1"><strong>Jawaban Benar:</strong> <span id="res-benar" class="text-success fw-bold">0</span> dari <span id="res-total-soal">0</span> soal</p>
+                                    <p class="mb-0"><strong>Persentase:</strong> <span id="res-persen" class="text-primary fw-bold">0%</span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Kategori:</strong> <span id="res-kategori" class="badge bg-success">Sangat Baik</span></p>
+                                    <p class="mb-1"><strong>Level Tertinggi:</strong> <span id="res-level" class="fw-bold">-</span></p>
+                                    <p class="mb-0"><strong>Lencana Diperoleh:</strong> <span id="res-lencana" class="text-warning fw-bold">-</span></p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
+                                <div class="text-start">
+                                    <p class="small text-muted mb-0">Robot Pemandu DIGO</p>
+                                    <p class="fw-bold text-dark mb-0">AI Educational Assistant</p>
+                                </div>
+                                <div class="text-end">
+                                    <p class="small text-muted mb-0">Guru Pengampu IPA SMP</p>
+                                    <p class="fw-bold text-dark mb-0">Kurikulum Merdeka / Nasional</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary rounded-pill px-4 fw-bold me-2" onclick="kirimDataKeDatabase()">
+                            <i class="fas fa-cloud-upload-alt me-1"></i> Simpan Skor ke Database MySQL
+                        </button>
+                        <button class="btn btn-outline-dark rounded-pill px-4 fw-bold" onclick="kembaliKeMenu()">
+                            Kembali ke Peta Misi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODAL PETUNJUK -->
+        <div class="modal fade" id="modalPetunjuk" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4 border-0 shadow">
+                    <div class="modal-header bg-primary text-white rounded-top-4">
+                        <h5 class="modal-title fw-bold"><i class="fas fa-info-circle me-2"></i> Petunjuk Permainan</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-secondary">
+                        <ol class="mb-0">
+                            <li class="mb-2">Masukkan Nama Lengkap dan Kelas Anda pada halaman awal.</li>
+                            <li class="mb-2">Pilih menu <strong>Pelajari Materi</strong> untuk memahami konsep sistem pencernaan sebelum menjelajah.</li>
+                            <li class="mb-2">Pilih berbagai misi minigame (Game 1 sampai 7) untuk mengumpulkan poin dan lencana.</li>
+                            <li class="mb-2">Robot DIGO akan memberikan petunjuk dan bimbingan di setiap permainan.</li>
+                            <li>Setelah selesai, lihat hasil akhir, cetak sertifikat, dan skor Anda akan tersimpan otomatis ke database MySQL!</li>
+                        </ol>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Mengerti</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS Game Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
